@@ -1,4 +1,4 @@
-# Voter
+# Voters
 
 Mobile-first PWA for yes/no questions. Votes decay with a 12h half-life, each user can vote once per question every 6h, and the app loads and accepts votes offline.
 

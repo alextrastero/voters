@@ -9,8 +9,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Voter',
-        short_name: 'Voter',
+        name: 'Voters',
+        short_name: 'Voters',
         display: 'standalone',
         background_color: '#fafaf9',
         theme_color: '#fafaf9',

@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /questions/{questionId}/votes/{userId} {
+      allow read: if true;
+
+      // One doc per user per question. votedAt must be the server time,
+      // and an existing vote can only be replaced 6h after it was cast.
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['answer', 'votedAt'])
+        && request.resource.data.answer in ['yes', 'no']
+        && request.resource.data.votedAt == request.time
+        && (resource == null || request.time > resource.data.votedAt + duration.value(6, 'h'));
+    }
+  }
+}

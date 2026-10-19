@@ -1,0 +1,121 @@
+:root {
+  --text: #4b4553;
+  --text-h: #0d0b12;
+  --bg: #fafaf9;
+  --card: #fff;
+  --border: #e5e4e7;
+  --yes: #1f7a4d;
+  --no: #b3261e;
+
+  font: 16px/1.45 system-ui, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #b4b0bb;
+    --text-h: #f3f4f6;
+    --bg: #121317;
+    --card: #1c1d23;
+    --border: #2e303a;
+    --yes: #4ade80;
+    --no: #f87171;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+main {
+  min-height: 100dvh;
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+  display: grid;
+  gap: 16px;
+  align-content: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  color: var(--text-h);
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.answer {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.answer-yes {
+  color: var(--yes);
+}
+
+.answer-no {
+  color: var(--no);
+}
+
+.share {
+  font-size: 1.25rem;
+}
+
+.meta {
+  min-height: 1.45em;
+  margin: 8px 0;
+  font-size: 0.875rem;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.vote {
+  min-height: 64px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  touch-action: manipulation;
+}
+
+.vote-yes {
+  background: var(--yes);
+}
+
+.vote-no {
+  background: var(--no);
+}
+
+.vote:disabled {
+  opacity: 0.35;
+}

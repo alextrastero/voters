@@ -4,14 +4,14 @@ const units: [Intl.RelativeTimeFormatUnit, number][] = [
   ['minute', 60 * 1000],
 ]
 
-const relative = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' })
+const relative = new Intl.RelativeTimeFormat('es', { numeric: 'auto' })
 
 export function timeAgo(timestamp: number, now: number): string {
   const diff = timestamp - now
   for (const [unit, ms] of units) {
     if (Math.abs(diff) >= ms) return relative.format(Math.round(diff / ms), unit)
   }
-  return 'just now'
+  return 'ahora mismo'
 }
 
 export function duration(ms: number): string {

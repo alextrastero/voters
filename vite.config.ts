@@ -11,6 +11,7 @@ export default defineConfig({
       manifest: {
         name: 'Voters',
         short_name: 'Voters',
+        lang: 'es',
         display: 'standalone',
         background_color: '#fafaf9',
         theme_color: '#fafaf9',

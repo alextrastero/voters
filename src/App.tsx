@@ -6,7 +6,8 @@ import { useNow } from './useNow'
 import { useUserId } from './useUserId'
 import { castVote, useVotes } from './useVotes'
 
-const LABELS: Record<Answer, string> = { yes: 'Yes', no: 'No' }
+const LABELS: Record<Answer, string> = { yes: 'Sí', no: 'No' }
+const ICONS: Record<Answer, string> = { yes: '👍', no: '👎' }
 
 function QuestionCard({ question, userId }: { question: Question; userId: string | null }) {
   const now = useNow()
@@ -24,18 +25,22 @@ function QuestionCard({ question, userId }: { question: Question; userId: string
       <div className="result">
         {score.leading ? (
           <>
-            <span className={`answer answer-${score.leading}`}>{LABELS[score.leading]}</span>
+            <span className={`answer answer-${score.leading}`} role="img" aria-label={LABELS[score.leading]}>
+              {ICONS[score.leading]}
+            </span>
             <span className="share">{Math.round(share * 100)}%</span>
           </>
         ) : (
-          <span className="answer">Unknown</span>
+          <span className="answer" role="img" aria-label="Desconocido">
+            🤷
+          </span>
         )}
       </div>
 
       <p className="meta">
         {score.lastVote
-          ? `Last vote: ${LABELS[score.lastVote.answer]} · ${timeAgo(score.lastVote.votedAt, now)}`
-          : 'No recent votes'}
+          ? `Último voto: ${LABELS[score.lastVote.answer]} · ${timeAgo(score.lastVote.votedAt, now)}`
+          : 'Sin votos recientes'}
       </p>
 
       <div className="buttons">
@@ -52,9 +57,9 @@ function QuestionCard({ question, userId }: { question: Question; userId: string
       </div>
 
       <p className="meta">
-        {cooldown > 0 && `You voted ${LABELS[ownVote!.answer]}. Vote again in ${duration(cooldown)}.`}
-        {pendingWrite && ' Waiting to sync.'}
-        {fromCache && !pendingWrite && ' Offline: showing cached results.'}
+        {cooldown > 0 && `Votaste ${LABELS[ownVote!.answer]}. Podrás volver a votar en ${duration(cooldown)}.`}
+        {pendingWrite && ' Pendiente de sincronizar.'}
+        {fromCache && !pendingWrite && ' Sin conexión: mostrando resultados guardados.'}
       </p>
     </section>
   )
@@ -67,7 +72,7 @@ export default function App() {
     <main>
       {error !== null && (
         <button className="error" onClick={dismissError}>
-          Error {error} · tap to dismiss
+          Error {error} · toca para cerrar
         </button>
       )}
       {QUESTIONS.map((question) => (

@@ -21,3 +21,18 @@ Mobile-first PWA for yes/no questions. Votes decay with a 12h half-life, each us
 `questions/{questionId}/votes/{userId}` → `{ answer: 'yes' | 'no', votedAt: <server timestamp> }`
 
 Questions are defined in `src/questions.ts`. Scoring lives in `src/scoring.ts`, and the 6h cooldown is enforced in `firestore.rules`.
+
+## Error numbers
+
+The app shows `Error <number>` on screen and logs the underlying error to the console. The source of truth is `ERRORS` in `src/errors.ts`.
+
+| Number | Meaning |
+|---|---|
+| 100 | Sign-in: anonymous auth is disabled in the Firebase project |
+| 101 | Sign-in: network request failed |
+| 199 | Sign-in: other error |
+| 200 | Vote: rejected by Firestore rules, e.g. cooldown not over |
+| 299 | Vote: other error |
+| 300 | Loading votes: rejected by Firestore rules |
+| 301 | Loading votes: Firestore unavailable |
+| 399 | Loading votes: other error |

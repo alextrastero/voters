@@ -1,3 +1,4 @@
+import { dismissError, useCurrentError } from './errors'
 import { duration, timeAgo } from './format'
 import { QUESTIONS, type Question } from './questions'
 import { computeScore, cooldownRemaining, type Answer } from './scoring'
@@ -61,8 +62,14 @@ function QuestionCard({ question, userId }: { question: Question; userId: string
 
 export default function App() {
   const userId = useUserId()
+  const error = useCurrentError()
   return (
     <main>
+      {error !== null && (
+        <button className="error" onClick={dismissError}>
+          Error {error} · tap to dismiss
+        </button>
+      )}
       {QUESTIONS.map((question) => (
         <QuestionCard key={question.id} question={question} userId={userId} />
       ))}

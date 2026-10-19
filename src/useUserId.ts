@@ -1,5 +1,6 @@
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth'
 import { useEffect, useState } from 'react'
+import { authErrorNumber, reportError } from './errors'
 import { auth } from './firebase'
 
 export function useUserId(): string | null {
@@ -9,7 +10,7 @@ export function useUserId(): string | null {
     () =>
       onAuthStateChanged(auth, (user) => {
         if (user) setUserId(user.uid)
-        else signInAnonymously(auth).catch((err) => console.error('Anonymous sign-in failed', err))
+        else signInAnonymously(auth).catch((err) => reportError(authErrorNumber(err), err))
       }),
     [],
   )

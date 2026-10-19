@@ -9,6 +9,8 @@ export const ERRORS = {
   300: 'Loading votes: rejected by Firestore rules (permission-denied)',
   301: 'Loading votes: Firestore unavailable (unavailable)',
   399: 'Loading votes: other error',
+  400: 'Config: VITE_QUESTIONS is missing or not a JSON array of { id, text }',
+  401: 'Config: one or more VITE_FIREBASE_* values are missing',
 } as const
 
 export type ErrorNumber = keyof typeof ERRORS

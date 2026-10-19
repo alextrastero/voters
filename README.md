@@ -5,7 +5,7 @@ Mobile-first PWA for yes/no questions. Votes decay with a 12h half-life, each us
 ## Setup
 
 1. Create a Firebase project. Enable **Authentication → Anonymous** and **Firestore**.
-2. Add a web app in project settings and copy its config into `.env` (see `.env.example`).
+2. Add a web app in project settings and copy its config into `.env` (see `.env.example`). Set `VITE_QUESTIONS` there too. When deploying, set the same variables in the host's build environment.
 3. `npm install`
 4. `npx firebase-tools login`, then `npx firebase-tools use --add` to pick the project.
 5. `npx firebase-tools deploy --only firestore:rules`
@@ -20,7 +20,7 @@ Mobile-first PWA for yes/no questions. Votes decay with a 12h half-life, each us
 
 `questions/{questionId}/votes/{userId}` → `{ answer: 'yes' | 'no', votedAt: <server timestamp> }`
 
-Questions are defined in `src/questions.ts`. Scoring lives in `src/scoring.ts`, and the 6h cooldown is enforced in `firestore.rules`.
+Questions come from `VITE_QUESTIONS`, a JSON array of `{ id, text }` read at build time. Scoring lives in `src/scoring.ts`, and the 6h cooldown is enforced in `firestore.rules`.
 
 ## Error numbers
 
@@ -36,3 +36,5 @@ The app shows `Error <number>` on screen and logs the underlying error to the co
 | 300 | Loading votes: rejected by Firestore rules |
 | 301 | Loading votes: Firestore unavailable |
 | 399 | Loading votes: other error |
+| 400 | Config: `VITE_QUESTIONS` is missing or not a JSON array of `{ id, text }` |
+| 401 | Config: one or more `VITE_FIREBASE_*` values are missing |

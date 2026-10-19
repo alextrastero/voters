@@ -19,48 +19,52 @@ function QuestionCard({ question, userId }: { question: Question; userId: string
   const share = score.leading === 'yes' ? score.yesShare : 1 - score.yesShare
 
   return (
-    <section className="card">
-      <h1>{question.text}</h1>
+    <section className="question">
+      <div className="board">
+        <h1>{question.text}</h1>
 
-      <div className="result">
-        {score.leading ? (
-          <>
-            <span className={`answer answer-${score.leading}`} role="img" aria-label={LABELS[score.leading]}>
-              {ICONS[score.leading]}
+        <div className="result">
+          {score.leading ? (
+            <>
+              <span className="answer" role="img" aria-label={LABELS[score.leading]}>
+                {ICONS[score.leading]}
+              </span>
+              <span className="share">{Math.round(share * 100)}%</span>
+            </>
+          ) : (
+            <span className="answer" role="img" aria-label="Desconocido">
+              🤷
             </span>
-            <span className="share">{Math.round(share * 100)}%</span>
-          </>
-        ) : (
-          <span className="answer" role="img" aria-label="Desconocido">
-            🤷
-          </span>
-        )}
+          )}
+        </div>
+
+        <p className="chalk-note">
+          {score.lastVote
+            ? `Último voto: ${LABELS[score.lastVote.answer]} · ${timeAgo(score.lastVote.votedAt, now)}`
+            : 'Sin votos recientes'}
+        </p>
       </div>
 
-      <p className="meta">
-        {score.lastVote
-          ? `Último voto: ${LABELS[score.lastVote.answer]} · ${timeAgo(score.lastVote.votedAt, now)}`
-          : 'Sin votos recientes'}
-      </p>
+      <div className="counter">
+        <div className="tiles">
+          {(['yes', 'no'] as const).map((answer) => (
+            <button
+              key={answer}
+              className={`tile tile-${answer}`}
+              disabled={!canVote}
+              onClick={() => userId && castVote(question.id, userId, answer)}
+            >
+              {LABELS[answer]}
+            </button>
+          ))}
+        </div>
 
-      <div className="buttons">
-        {(['yes', 'no'] as const).map((answer) => (
-          <button
-            key={answer}
-            className={`vote vote-${answer}`}
-            disabled={!canVote}
-            onClick={() => userId && castVote(question.id, userId, answer)}
-          >
-            {LABELS[answer]}
-          </button>
-        ))}
+        <p className="status">
+          {cooldown > 0 && `Votaste ${LABELS[ownVote!.answer]}. Podrás volver a votar en ${duration(cooldown)}.`}
+          {pendingWrite && ' Pendiente de sincronizar.'}
+          {fromCache && !pendingWrite && ' Sin conexión: mostrando resultados guardados.'}
+        </p>
       </div>
-
-      <p className="meta">
-        {cooldown > 0 && `Votaste ${LABELS[ownVote!.answer]}. Podrás volver a votar en ${duration(cooldown)}.`}
-        {pendingWrite && ' Pendiente de sincronizar.'}
-        {fromCache && !pendingWrite && ' Sin conexión: mostrando resultados guardados.'}
-      </p>
     </section>
   )
 }
@@ -71,7 +75,7 @@ export default function App() {
   return (
     <main>
       {error !== null && (
-        <button className="error" onClick={dismissError}>
+        <button className="ticket" onClick={dismissError}>
           Error {error} · toca para cerrar
         </button>
       )}

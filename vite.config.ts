@@ -8,13 +8,16 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,woff2}'],
+      },
       manifest: {
         name: 'Voters',
         short_name: 'Voters',
         lang: 'es',
         display: 'standalone',
-        background_color: '#fafaf9',
-        theme_color: '#fafaf9',
+        background_color: '#e9ecea',
+        theme_color: '#5a3520',
         icons: [{ src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }],
       },
     }),
